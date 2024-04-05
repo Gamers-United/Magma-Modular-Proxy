@@ -32,7 +32,8 @@ async fn main() {
     let opts = Opts::from_url(&args.database_url).unwrap();
     let pool = Pool::new(opts);
 
-    let proxy_server = TcpListener::bind((args.host, args.port)).await.unwrap();
+    let proxy_server = TcpListener::bind((args.host.clone(), args.port)).await.unwrap();
+    println!("Magma Modular Proxy Loaded. Listening on {}:{}", args.host, args.port);
 
     while let Ok((client, _)) = proxy_server.accept().await {
         let local_pool = pool.clone();

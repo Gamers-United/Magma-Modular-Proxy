@@ -34,20 +34,20 @@ async fn main() {
 
     let proxy_server = TcpListener::bind((args.host, args.port)).await.unwrap();
 
-    while let Ok((client, source)) = proxy_server.accept().await {
+    while let Ok((client, _)) = proxy_server.accept().await {
         let local_pool = pool.clone();
         let local_default_server = args.default_server.clone();
         tokio::spawn(async move {
-            let _ = handle_client_conn(client, source.to_string(), local_pool, local_default_server).await;
+            let _ = handle_client_conn(client, local_pool, local_default_server).await;
         });
     };
 }
 
-async fn handle_client_conn(mut client: TcpStream, source: String, pool: Pool, default_server: String) -> Result<(), Box<dyn std::error::Error>> {
+async fn handle_client_conn(mut client: TcpStream, pool: Pool, default_server: String) -> Result<(), Box<dyn std::error::Error>> {
     let (mut client_recv, mut client_send) = client.split();
 
     let mut buf_raw = vec![0u8; 1024];
-    let mut read_count = client_recv.read(&mut buf_raw).await?;
+    let read_count = client_recv.read(&mut buf_raw).await?;
     let mut buf = Bytes::from(buf_raw.clone());
 
     // Second stage buffer if required
@@ -158,10 +158,6 @@ async fn handle_client_conn(mut client: TcpStream, source: String, pool: Pool, d
     // Await the tasks
     tokio::try_join!(client_to_server, server_to_client)?;
 
-    drop(client_send);
-    drop(server_send);
-    drop(client_recv);
-    drop(server_recv);
     drop(client);
     drop(server);
 

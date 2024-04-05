@@ -152,6 +152,9 @@ async fn handle_client_conn(mut client: TcpStream, pool: Pool, default_server: S
         server_send.write_all(&second_stage_buffer).await?;
     }
 
+    // Print to the console what we are doing
+    println!("Connecting {} with version {} to {}", client_recv.peer_addr()?, protocol_version, server_recv.peer_addr()?);
+    
     // Spawn two tasks to handle bidirectional data transfer between client and target
     let client_to_server = io::copy(&mut client_recv, &mut server_send);
     let server_to_client = io::copy(&mut server_recv, &mut client_send);

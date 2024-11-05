@@ -7,9 +7,9 @@ edition = "2021"
 
 [dependencies]
 tracing-subscriber = "0.3.18"
-tokio = {version = "1.36.0", features = ["rt", "rt-multi-thread", "net", "macros", "fs", "sync", "io-util", "time"]}
-bytes = "1.6.0"
+tokio = {version = "1.41.0", features = ["rt", "rt-multi-thread", "net", "macros", "fs", "sync", "io-util", "time"]}
+bytes = "1.8.0"
 tracing = "0.1.40"
-clap = { version = "4.5.4", features = ["derive", "env"] }
+clap = { version = "4.5.20", features = ["derive", "env"] }
 residua-mutf8 = "2.0.0"
-mysql_async = "0.34.1"
+mysql_async = "0.34.2"

@@ -1,6 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Build Windows" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
-    <option name="command" value="build --release --target=x86_64-pc-windows-msvc&#9;" />
+    <option name="buildProfileId" value="release" />
+    <option name="command" value="build --target=x86_64-pc-windows-msvc" />
     <option name="workingDirectory" value="file://$PROJECT_DIR$" />
     <envs />
     <option name="emulateTerminal" value="true" />
